@@ -1,0 +1,8 @@
+server:
+  port: ${SERVICE_PORT}
+  servlet:
+    context-path: /${SERVICE_NAME:demo} 
+
+spring:
+  profiles:
+    include: shared
