@@ -81,7 +81,17 @@ spring:
     admin:
       properties:
         request.timeout.ms: ${KAFKA_REQUEST_TIMEOUT:5000}
-
+  cloud:
+    stream:
+      binders:
+        binderName:
+          type: kafka
+      bindings:
+        smsVerificationCreatedPublish:
+          destination: sms-verification-created
+        smsVerificationDeliveredSubscribe:
+          destination: sms-verification-delivered
+          group: demo
 dstrace:
   enabled: ${TRACER_ENABLE:false}
 

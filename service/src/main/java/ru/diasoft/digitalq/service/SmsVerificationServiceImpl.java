@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.diasoft.digitalq.domain.*;
+import ru.diasoft.digitalq.model.SmsDeliveredMessage;
+import ru.diasoft.digitalq.model.SmsVerificationMessage;
 import ru.diasoft.digitalq.repository.SmsVerificationRepository;
+import ru.diasoft.digitalq.smsverificationcreated.publish.SmsVerificationCreatedPublishGateway;
 
 import java.util.Optional;
 import java.util.Random;
@@ -13,8 +16,9 @@ import java.util.UUID;
 @Service
 @Primary
 @RequiredArgsConstructor
-public class SmsVerificationServiceImpl implements SmsVerificationService{
+public class SmsVerificationServiceImpl implements SmsVerificationService {
     private final SmsVerificationRepository smsVerificationRepository;
+    private final SmsVerificationCreatedPublishGateway gateway;
 
     private static final String STATUS_OK = "OK";
     private static final String STATUS_WAITING = "WAITING";
@@ -42,6 +46,12 @@ public class SmsVerificationServiceImpl implements SmsVerificationService{
 
         SmsVerificationPostResponse response = new SmsVerificationPostResponse();
         response.setProcessGUID(createdEntity.getProcessGuid());
+
+        gateway.smsVerificationCreated(SmsVerificationMessage.builder()
+                                                            .phoneNumber(createdEntity.getPhoneNumber())
+                                                            .code(createdEntity.getSecretCode())
+                                                            .guid(createdEntity.getProcessGuid())
+                                                            .build());
 
         return response;
     }

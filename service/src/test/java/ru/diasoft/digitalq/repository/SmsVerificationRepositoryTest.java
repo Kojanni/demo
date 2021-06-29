@@ -19,6 +19,11 @@ public class SmsVerificationRepositoryTest {
     @Autowired
     private SmsVerificationRepository repository;
 
+    private final String PHONE_NUMBER = "89205555555";
+    private final String SECRET_CODE = "7689";
+    private final String STATUS_OK = "OK";
+    private final String STATUS_WAITING = "WAITING";
+
     @Test
     public void smsVerificationCreatedTest() {
         SmsVerification smsVerification = SmsVerification.builder()
@@ -52,5 +57,20 @@ public class SmsVerificationRepositoryTest {
         assertThat(repository.findByProcessGuidAndSecretCodeAndStatus(guid, secretCode, status).orElse(SmsVerification.builder().build()))
                 .isEqualTo(createdEntity);
         assertThat(repository.findByProcessGuidAndSecretCodeAndStatus("222", secretCode, status)).isEmpty();
+    }
+
+    @Test
+    void update() {
+        String processGuid = UUID.randomUUID().toString();
+        SmsVerification smsVerification = SmsVerification.builder()
+                .processGuid(processGuid)
+                .phoneNumber(PHONE_NUMBER)
+                .secretCode(SECRET_CODE)
+                .status(STATUS_WAITING)
+                .build();
+        SmsVerification createdEntity = repository.save(smsVerification);
+        repository.updateStatusByProcessGuid(STATUS_OK, processGuid);
+
+        assertThat(repository.findById(createdEntity.getVerificationId()).orElse(smsVerification.builder().build()).getStatus()).isEqualTo(STATUS_OK);
     }
 }
