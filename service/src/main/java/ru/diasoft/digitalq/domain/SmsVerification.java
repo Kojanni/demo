@@ -15,7 +15,7 @@ public class SmsVerification {
     @Column(name = "verificationid")
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sms_verification_verificationid_seq")
-    @SequenceGenerator(name = "sms_verification_verificationid_seq", sequenceName = "sms_verification_verificationid_seq")
+    @SequenceGenerator(name = "sms_verification_verificationid_seq", sequenceName = "sms_verification_verificationid_seq", allocationSize = 1)
     private Long verificationId;
 
     @Column(name = "processguid")

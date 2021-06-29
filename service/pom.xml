@@ -80,21 +80,32 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Events</id>
+                        <id>Generate Events Publisher</id>
                         <!-- DQCodeGen+Event-Driven Architectures (EDA). conf.diasoft.ru/pages/viewpage.action?pageId=50894482 -->
                         <goals>
-                            <goal>qarcher</goal>
+                            <goal>local</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
-                            <serviceName>SmsVerification</serviceName>
-                            <qarcherService>http://dsagregator2:8050</qarcherService>
+                            <skip>false</skip>
+                            <!--<serviceName>${project.artifactId}</serviceName>-->
+                            <!--    ? -->
                             <targetPackage>ru.diasoft.digitalq</targetPackage>
-                            <qarcherModuleName>DQ Hackathon Tutorial</qarcherModuleName>
-                            <!--    -->
-                            <qarcherVersion>1.01.00</qarcherVersion>
-                            <!--    -->
-                            <asyncApi>true</asyncApi>
+                            <asyncApiFile>${project.basedir}/src/main/resources/event-publisher.yml</asyncApiFile>
+                            <useZonedDateTime>true</useZonedDateTime>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Events Subscriber</id>
+                        <!-- DQCodeGen+Event-Driven Architectures (EDA). conf.diasoft.ru/pages/viewpage.action?pageId=50894482 -->
+                        <goals>
+                            <goal>local</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <!--<serviceName>${project.artifactId}</serviceName>-->
+                            <!--    ? -->
+                            <targetPackage>ru.diasoft.digitalq</targetPackage>
+                            <asyncApiFile>${project.basedir}/src/main/resources/event-subscriber.yml</asyncApiFile>
                             <useZonedDateTime>true</useZonedDateTime>
                         </configuration>
                     </execution>
