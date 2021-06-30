@@ -48,7 +48,7 @@ public class SmsVerificationServiceImplTest {
                 .secretCode(VALID_CODE)
                 .status(STATUS_OK)
                 .build();
-        Mockito.when(repository.findByProcessGuidAndSecretCodeAndStatus(GUID, VALID_CODE, repository.STATUS_OK)).thenReturn(Optional.of(mock));
+        Mockito.when(repository.findByProcessGuidAndSecretCodeAndStatus(GUID, VALID_CODE, STATUS_OK)).thenReturn(Optional.of(mock));
         Mockito.when(repository.findByProcessGuidAndSecretCodeAndStatus(GUID, NOT_VALID_CODE, STATUS_OK)).thenReturn(Optional.empty());
         Mockito.when(repository.save(any(SmsVerification.class))).thenReturn(mock);
        }
